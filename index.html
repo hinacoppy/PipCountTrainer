@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="description" content="Pip Count Trainer">
+<meta name="author" content="(C)hinacoppy 2024-2025">
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="/css/bgStaticBoard.css">
+<link rel="stylesheet" href="css/PipCountTrainer.css">
+<link rel="icon" href="icon/favicon.ico">
+<link rel="apple-touch-icon" href="icon/apple-touch-icon.png">
+<title>PipCountTrainer</title>
+</head>
+<body class="container cool">
+
+<section class="boardinfo">
+<section class="boardcontainer">
+<div id="board" class="board"></div>
+</section>
+
+<section class="info">
+<table class="info">
+<tr>
+<td class="alignleft">
+<button id="boffleft" class="buttonmini"><i class="fas fa-angle-double-left"></i></button>
+</td>
+<td class="aligncenter">
+<input id="showtimercb" type="checkbox" checked>
+<span id="timer">00:00</span>
+</td>
+<td class="alignright">
+<button id="boffright" class="buttonmini"><i class="fas fa-angle-double-right"></i></button>
+</td>
+</tr>
+<tr>
+<td class="alignleft">BLUE</td>
+<td class="aligncenter">Relative</td>
+<td class="alignright">WHITE</td>
+</tr>
+<tr>
+<td class="alignleft"><button id="pip1" class="pipdisp">0</button></td>
+<td class="aligncenter"><button id="pip3" class="pipdisp">+0</button></td>
+<td class="alignright"><button id="pip2" class="pipdisp">0</button></td>
+</tr>
+<tr>
+<td class="alignleft">&emsp;&emsp;<span id="pip1ans"></span></td>
+<td class="aligncenter"><span id="pip3ans"></span></td>
+<td class="alignright"><span id="pip2ans"></span>&emsp;&emsp;</td>
+<td>&ensp;</td>
+</tr>
+</table>
+</section>
+</section>
+
+<section id="tenkey" class="tenkeytable">
+<table>
+<tr>
+<td><button id="key7" class="tenkey">7</button></td>
+<td><button id="key8" class="tenkey">8</button></td>
+<td><button id="key9" class="tenkey">9</button></td>
+<td>&emsp;<button id="clearbtn">CL</button></td>
+</tr>
+<tr>
+<td><button id="key4" class="tenkey">4</button></td>
+<td><button id="key5" class="tenkey">5</button></td>
+<td><button id="key6" class="tenkey">6</button></td>
+<td>&emsp;<button id="backbtn">BS</button></td>
+</tr>
+<tr>
+<td><button id="key1" class="tenkey">1</button></td>
+<td><button id="key2" class="tenkey">2</button></td>
+<td><button id="key3" class="tenkey">3</button></td>
+<td>&emsp;<button id="okbtn">OK</button></td>
+</tr>
+<tr>
+<td><button id="key0" class="tenkey">0</button></td>
+<td></td>
+<td class="relative"><button id="minusbtn">+/-</button></td>
+<td>&emsp;<button id="nextbtn">NEXT</button></td>
+</tr>
+</table>
+</section>
+
+<script src="/js/fontawesome-inuse.min.js" defer></script>
+<script src="/js/jquery-3.7.1.min.js"></script>
+<script src="/js/BgUtil_class.js"></script>
+<script src="/js/BgXgid_class.js"></script>
+<script src="/js/BgStaticBoard_class.js"></script>
+<script src="/js/BgChequer_class.js"></script>
+<script src="js/PipCountTrainer_class.js"></script>
+<script>
+  var dummy = new PipCountTrainer();
+</script>
+<script src="/js/start-serviceWorker.js"></script>
+</body>
+</html>
