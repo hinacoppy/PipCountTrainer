@@ -8,12 +8,12 @@ class PipCountTrainer {
 
     this.setDomNames();
     this.setEventHandler();
-    //this.resetAll("XGID=-b----E-C---eE---c-e----B-:0:0:1:12:0:0:0:0:10");
-    this.resetAll();
+    this.resetAll("XGID=-b----E-C---eE---c-e----B-:0:0:1:00:0:0:0:0:10");
+    //this.resetAll();
 
     this.plusminusflag = true; //plus(T), minus(F)
     this.showtimerflag = true; //show(T), hide(F)
-    this.whichpip = 0; //(1)=pip1 (2)=pip2 (3)=relative mode
+    this.whichpip = 0; //(1)=blue (2)=white (3)=relative mode
   } //end of constructor()
 
   setDomNames() {
@@ -67,11 +67,11 @@ class PipCountTrainer {
     this.pip3str = "+";
     this.pip3.text("+0");
     this.pip3ans.hide();
+    this.plusminusflag = true;
   }
 
   tenkeyAction(id) {
     const num = id.substring(3);
-console.log("tenkeyAction", id, num);
     switch(this.whichpip) {
     case 1:
       this.pip1str += num;
@@ -101,6 +101,7 @@ console.log("tenkeyAction", id, num);
     case 3:
       this.pip3str = "+";
       this.pip3.text("+0");
+      this.plusminusflag = true;
       break;
     }
   }
@@ -123,7 +124,6 @@ console.log("tenkeyAction", id, num);
       this.pip3str = this.pip3str.substring(0, this.pip3str.length -1);
       pipstr = (this.pip3str.length == 1) ? this.pip3str + "0" : this.pip3str;
       this.pip3.text(pipstr);
-console.log("backAction", this.pip3str, pipstr);
       break;
     }
   }
@@ -135,7 +135,6 @@ console.log("backAction", this.pip3str, pipstr);
     this.pip3str = pm + this.pip3str.substring(1);
     const pipstr = (this.pip3str.length == 1) ? this.pip3str + "0" : this.pip3str;
     this.pip3.text(pipstr);
-console.log("plusminusAction", this.pip3str, pipstr, pm);
   }
 
   okAction() {
