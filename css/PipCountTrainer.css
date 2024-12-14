@@ -12,7 +12,7 @@ html{
 body{
   margin:10px;
   padding:0;
-  background:var(--body-bg-color);
+  background-color:var(--body-bg-color);
   -webkit-text-size-adjust:100%; /* iPhoneで文字サイズが勝手に大きくならないように */
   text-size-adjust:100%;
 }
@@ -20,11 +20,21 @@ body{
 /* Contents Layout outline ---------------------------------------- */
 .container{
   display:flex;
-  flex-direction:row; /* ボードとテンキーは横並びにするが、入らないときは縦並びに折り返す(wrap) */
-  flex-wrap:wrap;
+  flex-direction:row; /* ボードとテンキーは横並びにする。折り返さない(nowrap) */
+  flex-wrap:nowrap;
   align-items:center;
   justify-content:space-around;
   align-content:center;
+}
+@media (orientation: portrait){
+.container{
+  display:flex;
+  flex-direction:column; /* スマホが縦向きの時はボードとテンキーは縦並びにする */
+  flex-wrap:nowrap;
+  align-items:center;
+  justify-content:space-around;
+  align-content:center;
+}
 }
 .boardinfo{
   display:flex;
