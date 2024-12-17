@@ -16,7 +16,7 @@ body{
   -webkit-text-size-adjust:100%; /* iPhoneで文字サイズが勝手に大きくならないように */
   text-size-adjust:100%;
   font-size:100%;
-  font-family:sans-serif;
+  font-family:sans-serif, arial;
 }
 
 /* Contents Layout outline ---------------------------------------- */
@@ -26,17 +26,6 @@ body{
   flex-wrap:nowrap;
   align-items:center;
   justify-content:space-around;
-  align-content:center;
-}
-@media (orientation: portrait){
-.container{
-  display:flex;
-  flex-direction:column; /* スマホが縦向きの時はボードとテンキーは縦並びにする */
-  flex-wrap:nowrap;
-  align-items:center;
-  justify-content:space-around;
-  align-content:center;
-}
 }
 .boardinfo{
   display:flex;
@@ -46,17 +35,19 @@ body{
 }
 .info{
   display:grid; /* インフォはgridでレイアウト(flexだと横が揃わない) */
-  grid-template-columns:repeat(3, auto);
+  grid-template-columns:repeat(3, auto); /* 3x4でautoで配置 */
   grid-template-rows:repeat(4, auto);
   justify-items:center;
   align-items:center;
   width:100%; /* ボードの幅に合わせて左右に伸長 */
 }
+.tenkeytable{
+}
 
 /* Application Decoration ----------------------------------------- */
 button{
   cursor:pointer;
-  display:inline-block;
+  display:block;
   min-width:8vw;
   font-size:x-large;
   background-color:var(--btn-enable);
@@ -64,7 +55,7 @@ button{
   border-radius:10px; /* 角丸表示 */
   vertical-align:middle;
   text-align:center;
-  padding:3px 10px;
+  padding:10px 10px;
 }
 .btn-sm{
   padding:0;
@@ -87,6 +78,22 @@ button{
 }
 .green{
   color:var(--green);
+}
+.boardZZZ{ /* モック用 */
+  width:var(--board-width);
+  height:var(--board-height);
+  background:#384;
+  /*margin-bottom:30px;*/
+}
+
+/* スマホが縦向き(portrait)の時の設定 ------------------------------- */
+@media (orientation: portrait){
+.container{
+  flex-direction:column; /* 縦向きの時はボードとテンキーは縦並びにする */
+}
+button{
+  padding:3px 20px; /* 縦向きの時は横長いボタンにする */
+}
 }
 
 /* Board size definision for bgStaticBoard.css ---------------------- */

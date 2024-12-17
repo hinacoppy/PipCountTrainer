@@ -9,25 +9,24 @@ class PipCountTrainer {
     this.setDomNames();
     this.setEventHandler();
     this.resetAll("XGID=-b----E-C---eE---c-e----B-:0:0:1:00:0:0:0:0:10");
-    //this.resetAll();
 
     this.plusminusflag = true; //plus(T), minus(F)
-    this.showtimerflag = true; //show(T), hide(F)
-    this.whichpip = 0; //(1)=blue (2)=white (3)=relative mode
+    this.visibletimerflag = true; //show(T), hide(F)
+    this.whichpip = 3; //(1)=blue (2)=white (3)=relative mode
   } //end of constructor()
 
   setDomNames() {
     //buttons
-    this.tenkey      = $(".tenkey");
-    this.clearbtn    = $("#clearbtn");
-    this.backbtn     = $("#backbtn");
-    this.minusbtn    = $("#minusbtn");
-    this.okbtn       = $("#okbtn");
-    this.nextbtn     = $("#nextbtn");
-    this.showtimercb = $("#showtimercb");
-    this.boffleft    = $("#boffleft");
-    this.boffright   = $("#boffright");
-    this.pipbutton   = $("#pip1, #pip2, #pip3");
+    this.tenkey    = $(".tenkey");
+    this.clearbtn  = $("#clearbtn");
+    this.backbtn   = $("#backbtn");
+    this.minusbtn  = $("#minusbtn");
+    this.okbtn     = $("#okbtn");
+    this.nextbtn   = $("#nextbtn");
+    this.timercb   = $("#timercb");
+    this.pipbtns   = $("#pip1, #pip2, #pip3");
+    this.boffleft  = $("#boffleft");
+    this.boffright = $("#boffright");
 
     //infos
     this.timer   = $("#timer");
@@ -40,19 +39,19 @@ class PipCountTrainer {
   }
 
   setEventHandler() {
-    this.tenkey.     on("click", (e) => { e.preventDefault(); this.tenkeyAction(e.target.id); });
-    this.clearbtn.   on("click", (e) => { e.preventDefault(); this.clearAction(); });
-    this.backbtn.    on("click", (e) => { e.preventDefault(); this.backAction(); });
-    this.minusbtn.   on("click", (e) => { e.preventDefault(); this.plusminusAction(); });
-    this.okbtn.      on("click", (e) => { e.preventDefault(); this.okAction(); });
-    this.nextbtn.    on("click", (e) => { e.preventDefault(); this.nextAction(); });
-    this.showtimercb.on("change",(e) => { e.preventDefault(); this.changetimercbAction(); });
-    this.boffleft.   on("click", (e) => { e.preventDefault(); this.flipboardAction(true); });
-    this.boffright.  on("click", (e) => { e.preventDefault(); this.flipboardAction(false); });
-    this.pip1.       on("click", (e) => { e.preventDefault(); this.pip1SelectAction(); });
-    this.pip2.       on("click", (e) => { e.preventDefault(); this.pip2SelectAction(); });
-    this.pip3.       on("click", (e) => { e.preventDefault(); this.pip3SelectAction(); });
-    $(window).       on("resize",(e) => { e.preventDefault(); this.board.redraw(); });
+    this.tenkey.   on("click", (e) => { e.preventDefault(); this.tenkeyAction(e.target.id); });
+    this.clearbtn. on("click", (e) => { e.preventDefault(); this.clearAction(); });
+    this.backbtn.  on("click", (e) => { e.preventDefault(); this.backAction(); });
+    this.minusbtn. on("click", (e) => { e.preventDefault(); this.plusminusAction(); });
+    this.okbtn.    on("click", (e) => { e.preventDefault(); this.okAction(); });
+    this.nextbtn.  on("click", (e) => { e.preventDefault(); this.nextAction(); });
+    this.timercb.  on("change",(e) => { e.preventDefault(); this.changetimercbAction(); });
+    this.pip1.     on("click", (e) => { e.preventDefault(); this.pipSelectAction(1); });
+    this.pip2.     on("click", (e) => { e.preventDefault(); this.pipSelectAction(2); });
+    this.pip3.     on("click", (e) => { e.preventDefault(); this.pipSelectAction(3); });
+    this.boffleft. on("click", (e) => { e.preventDefault(); this.flipboardAction(true); });
+    this.boffright.on("click", (e) => { e.preventDefault(); this.flipboardAction(false); });
+    $(window).     on("resize",(e) => { e.preventDefault(); this.board.redraw(); });
   }
 
   resetAll(xgidstr = null) {
@@ -129,78 +128,58 @@ class PipCountTrainer {
   }
 
   plusminusAction() {
-    if (this.whichpip != 3) { return; }
+    if (this.whichpip != 3) { return; } //このボタンが押せるのはRelativeModeのときだけ
     this.plusminusflag = !this.plusminusflag;
     const pm = this.plusminusflag ? "+" : "-";
     this.pip3str = pm + this.pip3str.substring(1);
-    const pipstr = (this.pip3str.length == 1) ? this.pip3str + "0" : this.pip3str;
+    const pipstr = (this.pip3str.length == 1) ? pm + "0" : this.pip3str;
     this.pip3.text(pipstr);
   }
 
   okAction() {
     this.stopTimer();
-    this.showtimer(true);
+    this.showhideTimer(true); //タイマーを止めて考慮時間を表示
 
-    const pip1correct = this.xgid.get_pip(1);
-    const pip1num = Number(this.pip1str);
-    const faclass1 = (pip1num == pip1correct) ? "fa-check green" : "fa-times red";
-    const pip1ans = '<i class="fas ' + faclass1 + '"></i> ' + pip1correct
+    const pip1ans = this.makeAnswer(Number(this.pip1str), this.xgid.get_pip(1));
     this.pip1ans.html(pip1ans).show();
 
-    const pip2correct = this.xgid.get_pip(-1);
-    const pip2num = Number(this.pip2str);
-    const faclass2 = (pip2num == pip2correct) ? "fa-check green" : "fa-times red";
-    const pip2ans = '<i class="fas ' + faclass2 + '"></i> ' + pip2correct
+    const pip2ans = this.makeAnswer(Number(this.pip2str), this.xgid.get_pip(-1));
     this.pip2ans.html(pip2ans).show();
 
     const pip3correct = this.xgid.get_pip(1) - this.xgid.get_pip(-1);
     const pip3num = (this.pip3str.length == 1) ? 0 : Number(this.pip3str);
-    const faclass3 = (pip3num == pip3correct) ? "fa-check green" : "fa-times red";
-    const pip3ans = '<i class="fas ' + faclass3 + '"></i> ' + pip3correct
+    const pip3ans = this.makeAnswer(pip3num, pip3correct);
     this.pip3ans.html(pip3ans).show();
+  }
+
+  makeAnswer(answer, correct) {
+    const faclass = (answer == correct) ? "fa-check green" : "fa-times red";
+    const answerstr = '<i class="fas ' + faclass + '"></i> ' + correct;
+    return answerstr;
   }
 
   nextAction() {
     const nextxgid = this.selectXgid();
     this.resetAll(nextxgid);
-    this.showtimer(this.showtimerflag)
+    this.showhideTimer(this.visibletimerflag);
     this.startTimer();
   }
 
   changetimercbAction() {
-    this.showtimerflag = this.showtimercb.prop("checked");
-    this.showtimer(this.showtimerflag)
+    this.visibletimerflag = this.timercb.prop("checked");
+    this.showhideTimer(this.visibletimerflag);
   }
 
-  showtimer(flag) {
-    if (flag) {
-      this.timer.removeClass("hidetimer"); //show
-    } else {
-      this.timer.addClass("hidetimer"); //hide
-    }
+  pipSelectAction(id) {
+    this.whichpip = id;
+    this.pipbtns.removeClass("selected");
+    const selectedbtn = (id == 1) ? this.pip1 : ((id == 2) ? this.pip2 : this.pip3);
+    selectedbtn.addClass("selected");
   }
 
   flipboardAction(boff) {
     this.board.leftBoffFlag = boff;
     this.board.redraw();
-  }
-
-  pip1SelectAction() {
-    this.whichpip = 1;
-    this.pipbutton.removeClass("selected");
-    this.pip1.addClass("selected");
-  }
-
-  pip2SelectAction() {
-    this.whichpip = 2;
-    this.pipbutton.removeClass("selected");
-    this.pip2.addClass("selected");
-  }
-
-  pip3SelectAction() {
-    this.whichpip = 3;
-    this.pipbutton.removeClass("selected");
-    this.pip3.addClass("selected");
   }
 
   startTimer() {
@@ -238,6 +217,14 @@ class PipCountTrainer {
     const sec = Math.trunc(time % 60);
     const timestr = ("00" + min).slice(-2) + ":" + ("00" + sec).slice(-2);
     this.timer.text(timestr);
+  }
+
+  showhideTimer(flag) {
+    if (flag) {
+      this.timer.removeClass("hidetimer"); //show
+    } else {
+      this.timer.addClass("hidetimer"); //hide
+    }
   }
 
   selectXgid() {

@@ -20,25 +20,26 @@
  <div id="board" class="board"></div>
 
  <div class="info">
-  <button id="boffleft" class="btn-sm"><i class="fas fa-angle-double-left"></i></button>
-  <span><input id="showtimercb" type="checkbox" checked><label for="showtimercb"><span id="timer">00:00</span></label></span>
-  <button id="boffright" class="btn-sm"><i class="fas fa-angle-double-right"></i></button>
+  <div><!--<button id="boffleft" class="btn-sm"><i class="fas fa-angle-double-left"></i></button>--></div>
+  <div><input id="timercb" type="checkbox" checked><label for="timercb" id="timer"> 00:00</label></div>
+  <div><!--<button id="boffright" class="btn-sm"><i class="fas fa-angle-double-right"></i></button>--></div>
 
-  <span>Blue</span>
-  <span>Relative</span>
-  <span>White</span>
+  <div>Blue</div>
+  <div>Relative</div>
+  <div>White</div>
 
   <button id="pip1" class="pipdisp">0</button>
   <button id="pip3" class="pipdisp selected">+0</button>
   <button id="pip2" class="pipdisp">0</button>
 
-  <span id="pip1ans"></span>
-  <span id="pip3ans"></span>
-  <span id="pip2ans"></span>
+  <div id="pip1ans"></div>
+  <div id="pip3ans"></div>
+  <div id="pip2ans"></div>
  </div>
 </section>
 
-<table class="tenkeytable">
+<section class="tenkeytable">
+ <table>
  <tr>
   <td><button id="key7" class="tenkey">7</button></td>
   <td><button id="key8" class="tenkey">8</button></td>
@@ -67,7 +68,8 @@
   <td>&emsp;</td>
   <td><button id="nextbtn">NEXT</button></td>
  </tr>
-</table>
+ </table>
+</section>
 
 <script src="/js/fontawesome-inuse.min.js" defer></script>
 <script src="/js/jquery-3.7.1.min.js"></script>
